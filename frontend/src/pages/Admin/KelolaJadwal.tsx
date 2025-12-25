@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import {
     Select,
     SelectContent,
@@ -127,6 +128,22 @@ export const KelolaJadwal = () => {
     // Modal states
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    // Edit modal states
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [editingJadwal, setEditingJadwal] = useState<JadwalSidang | null>(null)
+
+    // Selesai modal states
+    const [isSelesaiModalOpen, setIsSelesaiModalOpen] = useState(false)
+    const [selesaiJadwal, setSelesaiJadwal] = useState<JadwalSidang | null>(null)
+    const [hasilSidang, setHasilSidang] = useState<'lulus' | 'lulus_revisi' | 'tidak_lulus'>('lulus')
+    const [nilaiSidang, setNilaiSidang] = useState('')
+    const [catatanHasil, setCatatanHasil] = useState('')
+
+    // Batalkan modal states
+    const [isBatalkanModalOpen, setIsBatalkanModalOpen] = useState(false)
+    const [batalkanJadwal, setBatalkanJadwal] = useState<JadwalSidang | null>(null)
+    const [alasanBatal, setAlasanBatal] = useState('')
 
     // Form states
     const [mahasiswaList, setMahasiswaList] = useState<UserOption[]>([])
@@ -244,16 +261,123 @@ export const KelolaJadwal = () => {
         }
     }
 
-    const handleDeleteJadwal = async (id: string) => {
-        if (!confirm('Apakah Anda yakin ingin membatalkan jadwal ini?')) return
+    // Open Edit modal
+    const openEditModal = (jadwal: JadwalSidang) => {
+        setEditingJadwal(jadwal)
+        setTanggal(jadwal.tanggal.split('T')[0])
+        setWaktuMulai(jadwal.waktuMulai)
+        setWaktuSelesai(jadwal.waktuSelesai || '')
+        setRuangan(jadwal.ruangan || '')
+        setPenguji1(jadwal.penguji?.[0]?._id || '')
+        setPenguji2(jadwal.penguji?.[1]?._id || '')
+        setIsEditModalOpen(true)
+    }
 
+    // Handle Edit submit
+    const handleEditJadwal = async () => {
+        if (!editingJadwal) return
+
+        setIsSubmitting(true)
         try {
-            await api.delete(`/jadwal/${id}`)
-            alert('Jadwal berhasil dibatalkan')
+            const pengujiArr = []
+            if (penguji1) pengujiArr.push(penguji1)
+            if (penguji2) pengujiArr.push(penguji2)
+
+            await api.put(`/jadwal/${editingJadwal._id}`, {
+                tanggal,
+                waktuMulai,
+                waktuSelesai: waktuSelesai || null,
+                ruangan,
+                penguji: pengujiArr
+            })
+
+            alert('Jadwal berhasil diupdate!')
+            setIsEditModalOpen(false)
+            setEditingJadwal(null)
+            resetForm()
             fetchJadwal()
-        } catch (error) {
-            console.error('Failed to delete jadwal:', error)
-            alert('Gagal membatalkan jadwal')
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } }
+            alert(err.response?.data?.message || 'Gagal mengupdate jadwal')
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
+
+    // Open Selesai modal
+    const openSelesaiModal = (jadwal: JadwalSidang) => {
+        setSelesaiJadwal(jadwal)
+        setHasilSidang('lulus')
+        setNilaiSidang('')
+        setCatatanHasil('')
+        setIsSelesaiModalOpen(true)
+    }
+
+    // Handle Selesai submit
+    const handleSelesaiJadwal = async () => {
+        if (!selesaiJadwal) return
+
+        if (!hasilSidang) {
+            alert('Mohon pilih hasil sidang!')
+            return
+        }
+
+        setIsSubmitting(true)
+        try {
+            await api.put(`/jadwal/${selesaiJadwal._id}`, {
+                status: 'selesai',
+                hasil: hasilSidang,
+                nilaiSidang: nilaiSidang || undefined,
+                catatan: catatanHasil || undefined
+            })
+
+            alert('Jadwal berhasil diselesaikan!')
+            setIsSelesaiModalOpen(false)
+            setSelesaiJadwal(null)
+            setHasilSidang('lulus')
+            setNilaiSidang('')
+            setCatatanHasil('')
+            fetchJadwal()
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } }
+            alert(err.response?.data?.message || 'Gagal menyelesaikan jadwal')
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
+
+    // Open Batalkan modal
+    const openBatalkanModal = (jadwal: JadwalSidang) => {
+        setBatalkanJadwal(jadwal)
+        setAlasanBatal('')
+        setIsBatalkanModalOpen(true)
+    }
+
+    // Handle Batalkan submit
+    const handleBatalkanJadwal = async () => {
+        if (!batalkanJadwal) return
+
+        if (!alasanBatal.trim()) {
+            alert('Mohon isi alasan pembatalan!')
+            return
+        }
+
+        setIsSubmitting(true)
+        try {
+            await api.delete(`/jadwal/${batalkanJadwal._id}`, {
+                data: { alasan: alasanBatal }
+            })
+
+            alert('Jadwal berhasil dibatalkan!')
+            setIsBatalkanModalOpen(false)
+            setBatalkanJadwal(null)
+            setAlasanBatal('')
+            fetchJadwal()
+        } catch (error: unknown) {
+            const err = error as { response?: { data?: { message?: string } } }
+            alert(err.response?.data?.message || 'Gagal membatalkan jadwal')
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -621,14 +745,38 @@ export const KelolaJadwal = () => {
                                                                 </Button>
                                                             </DropdownMenuTrigger>
                                                             <DropdownMenuContent align="end">
-                                                                <DropdownMenuItem className="cursor-pointer"><Edit className="w-4 h-4 mr-2" />Edit</DropdownMenuItem>
-                                                                <DropdownMenuItem className="cursor-pointer"><CheckCircle className="w-4 h-4 mr-2" />Selesai</DropdownMenuItem>
-                                                                <DropdownMenuItem
-                                                                    className="cursor-pointer text-red-600"
-                                                                    onClick={() => handleDeleteJadwal(jadwal._id)}
-                                                                >
-                                                                    <Trash2 className="w-4 h-4 mr-2" />Batalkan
-                                                                </DropdownMenuItem>
+                                                                {jadwal.status === 'dijadwalkan' && (
+                                                                    <>
+                                                                        <DropdownMenuItem
+                                                                            className="cursor-pointer"
+                                                                            onClick={() => openEditModal(jadwal)}
+                                                                        >
+                                                                            <Edit className="w-4 h-4 mr-2" />Edit
+                                                                        </DropdownMenuItem>
+                                                                        <DropdownMenuItem
+                                                                            className="cursor-pointer"
+                                                                            onClick={() => openSelesaiModal(jadwal)}
+                                                                        >
+                                                                            <CheckCircle className="w-4 h-4 mr-2" />Selesai
+                                                                        </DropdownMenuItem>
+                                                                        <DropdownMenuItem
+                                                                            className="cursor-pointer text-red-600"
+                                                                            onClick={() => openBatalkanModal(jadwal)}
+                                                                        >
+                                                                            <Trash2 className="w-4 h-4 mr-2" />Batalkan
+                                                                        </DropdownMenuItem>
+                                                                    </>
+                                                                )}
+                                                                {jadwal.status === 'selesai' && (
+                                                                    <DropdownMenuItem disabled className="text-gray-400">
+                                                                        <CheckCircle className="w-4 h-4 mr-2" />Sudah Selesai
+                                                                    </DropdownMenuItem>
+                                                                )}
+                                                                {jadwal.status === 'dibatalkan' && (
+                                                                    <DropdownMenuItem disabled className="text-gray-400">
+                                                                        <XCircle className="w-4 h-4 mr-2" />Sudah Dibatalkan
+                                                                    </DropdownMenuItem>
+                                                                )}
                                                             </DropdownMenuContent>
                                                         </DropdownMenu>
                                                     </TableCell>
@@ -809,6 +957,287 @@ export const KelolaJadwal = () => {
                                     <>
                                         <Plus className="w-4 h-4 mr-2" />
                                         Buat Jadwal
+                                    </>
+                                )}
+                            </Button>
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Edit Jadwal Modal */}
+            <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+                <DialogContent className="max-w-lg">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <Edit className="w-5 h-5 text-blue-500" />
+                            Edit Jadwal Sidang
+                        </DialogTitle>
+                        <DialogDescription>
+                            Ubah informasi jadwal sidang {editingJadwal?.mahasiswa?.name}
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-4 mt-4">
+                        {/* Tanggal & Waktu */}
+                        <div className="grid grid-cols-3 gap-3">
+                            <div>
+                                <Label className="text-sm font-medium">Tanggal *</Label>
+                                <Input
+                                    type="date"
+                                    value={tanggal}
+                                    onChange={e => setTanggal(e.target.value)}
+                                    className="mt-1"
+                                />
+                            </div>
+                            <div>
+                                <Label className="text-sm font-medium">Jam Mulai *</Label>
+                                <Input
+                                    type="time"
+                                    value={waktuMulai}
+                                    onChange={e => setWaktuMulai(e.target.value)}
+                                    className="mt-1"
+                                />
+                            </div>
+                            <div>
+                                <Label className="text-sm font-medium">Jam Selesai</Label>
+                                <Input
+                                    type="time"
+                                    value={waktuSelesai}
+                                    onChange={e => setWaktuSelesai(e.target.value)}
+                                    className="mt-1"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Ruangan */}
+                        <div>
+                            <Label className="text-sm font-medium">Ruangan *</Label>
+                            <Select value={ruangan} onValueChange={setRuangan}>
+                                <SelectTrigger className="mt-1">
+                                    <SelectValue placeholder="Pilih ruangan..." />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {ruanganOptions.map(room => (
+                                        <SelectItem key={room} value={room}>
+                                            {room}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Penguji */}
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <Label className="text-sm font-medium">Penguji 1</Label>
+                                <Select value={penguji1} onValueChange={setPenguji1}>
+                                    <SelectTrigger className="mt-1">
+                                        <SelectValue placeholder="Pilih penguji..." />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {dosenList.map(dosen => (
+                                            <SelectItem key={dosen._id} value={dosen._id}>
+                                                {dosen.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div>
+                                <Label className="text-sm font-medium">Penguji 2</Label>
+                                <Select value={penguji2} onValueChange={setPenguji2}>
+                                    <SelectTrigger className="mt-1">
+                                        <SelectValue placeholder="Pilih penguji..." />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {dosenList.filter(d => d._id !== penguji1).map(dosen => (
+                                            <SelectItem key={dosen._id} value={dosen._id}>
+                                                {dosen.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+
+                        {/* Buttons */}
+                        <div className="flex justify-end gap-3 pt-4">
+                            <Button variant="outline" onClick={() => setIsEditModalOpen(false)}>
+                                <X className="w-4 h-4 mr-2" />
+                                Batal
+                            </Button>
+                            <Button
+                                className="bg-gradient-to-r from-blue-500 to-blue-600"
+                                onClick={handleEditJadwal}
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                        Menyimpan...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Edit className="w-4 h-4 mr-2" />
+                                        Simpan Perubahan
+                                    </>
+                                )}
+                            </Button>
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Selesai Jadwal Modal */}
+            <Dialog open={isSelesaiModalOpen} onOpenChange={setIsSelesaiModalOpen}>
+                <DialogContent className="max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <CheckCircle className="w-5 h-5 text-green-500" />
+                            Selesaikan Sidang
+                        </DialogTitle>
+                        <DialogDescription>
+                            Isi hasil sidang untuk {selesaiJadwal?.mahasiswa?.name}
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-4 mt-4">
+                        {/* Hasil Sidang */}
+                        <div>
+                            <Label className="text-sm font-medium">Hasil Sidang *</Label>
+                            <Select value={hasilSidang} onValueChange={(v) => setHasilSidang(v as 'lulus' | 'lulus_revisi' | 'tidak_lulus')}>
+                                <SelectTrigger className="mt-1">
+                                    <SelectValue placeholder="Pilih hasil..." />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="lulus">
+                                        <div className="flex items-center gap-2">
+                                            <CheckCircle className="w-4 h-4 text-green-500" />
+                                            Lulus
+                                        </div>
+                                    </SelectItem>
+                                    <SelectItem value="lulus_revisi">
+                                        <div className="flex items-center gap-2">
+                                            <AlertCircle className="w-4 h-4 text-yellow-500" />
+                                            Lulus dengan Revisi
+                                        </div>
+                                    </SelectItem>
+                                    <SelectItem value="tidak_lulus">
+                                        <div className="flex items-center gap-2">
+                                            <XCircle className="w-4 h-4 text-red-500" />
+                                            Tidak Lulus
+                                        </div>
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Nilai Sidang */}
+                        <div>
+                            <Label className="text-sm font-medium">Nilai Sidang (Opsional)</Label>
+                            <Input
+                                type="number"
+                                placeholder="Contoh: 85"
+                                value={nilaiSidang}
+                                onChange={e => setNilaiSidang(e.target.value)}
+                                className="mt-1"
+                                min="0"
+                                max="100"
+                            />
+                        </div>
+
+                        {/* Catatan */}
+                        <div>
+                            <Label className="text-sm font-medium">Catatan (Opsional)</Label>
+                            <Textarea
+                                placeholder="Catatan tambahan tentang hasil sidang..."
+                                value={catatanHasil}
+                                onChange={e => setCatatanHasil(e.target.value)}
+                                className="mt-1"
+                                rows={3}
+                            />
+                        </div>
+
+                        {/* Buttons */}
+                        <div className="flex justify-end gap-3 pt-4">
+                            <Button variant="outline" onClick={() => setIsSelesaiModalOpen(false)}>
+                                <X className="w-4 h-4 mr-2" />
+                                Batal
+                            </Button>
+                            <Button
+                                className="bg-gradient-to-r from-green-500 to-green-600"
+                                onClick={handleSelesaiJadwal}
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                        Menyimpan...
+                                    </>
+                                ) : (
+                                    <>
+                                        <CheckCircle className="w-4 h-4 mr-2" />
+                                        Selesaikan Sidang
+                                    </>
+                                )}
+                            </Button>
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Batalkan Jadwal Modal */}
+            <Dialog open={isBatalkanModalOpen} onOpenChange={setIsBatalkanModalOpen}>
+                <DialogContent className="max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2 text-red-600">
+                            <Trash2 className="w-5 h-5" />
+                            Batalkan Jadwal
+                        </DialogTitle>
+                        <DialogDescription>
+                            Anda akan membatalkan jadwal sidang untuk {batalkanJadwal?.mahasiswa?.name}
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-4 mt-4">
+                        {/* Alasan */}
+                        <div>
+                            <Label className="text-sm font-medium">Alasan Pembatalan *</Label>
+                            <Textarea
+                                placeholder="Tuliskan alasan pembatalan jadwal..."
+                                value={alasanBatal}
+                                onChange={e => setAlasanBatal(e.target.value)}
+                                className="mt-1"
+                                rows={4}
+                            />
+                        </div>
+
+                        <div className="flex items-center gap-2 p-3 bg-red-50 rounded-lg text-sm text-red-700">
+                            <AlertCircle className="w-4 h-4" />
+                            <p>Jadwal yang dibatalkan tidak dapat dikembalikan.</p>
+                        </div>
+
+                        {/* Buttons */}
+                        <div className="flex justify-end gap-3 pt-4">
+                            <Button variant="outline" onClick={() => setIsBatalkanModalOpen(false)}>
+                                <X className="w-4 h-4 mr-2" />
+                                Kembali
+                            </Button>
+                            <Button
+                                variant="destructive"
+                                onClick={handleBatalkanJadwal}
+                                disabled={isSubmitting || !alasanBatal.trim()}
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                        Membatalkan...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Trash2 className="w-4 h-4 mr-2" />
+                                        Ya, Batalkan
                                     </>
                                 )}
                             </Button>
