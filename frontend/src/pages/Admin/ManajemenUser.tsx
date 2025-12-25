@@ -54,7 +54,6 @@ import {
     GraduationCap,
     UserCheck,
     FileText,
-    Shield,
     ChevronLeft,
     ChevronRight,
     Filter,
@@ -103,7 +102,6 @@ export const ManajemenUser = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [usersData, setUsersData] = useState<UserData[]>([])
     const [isLoading, setIsLoading] = useState(true)
-    const [stats, setStats] = useState({ totalMahasiswa: 0, totalDosen: 0, totalAktif: 0 })
 
     // Modal states
     const [showAddModal, setShowAddModal] = useState(false)
@@ -138,13 +136,6 @@ export const ManajemenUser = () => {
                 const users = response.data.data || []
                 setUsersData(users)
 
-                // Calculate stats
-                setStats({
-                    totalMahasiswa: users.filter((u: UserData) => u.role === 'mahasiswa').length,
-                    totalDosen: users.filter((u: UserData) => u.role === 'dosen').length,
-                    totalAktif: users.filter((u: UserData) => u.status === 'aktif').length
-                })
-
                 // Get dosen list for dropdown
                 const dosenUsers = users.filter((u: UserData) => u.role === 'dosen')
                 setDosenList(dosenUsers.map((d: UserData) => ({ _id: d._id, name: d.name })))
@@ -163,11 +154,6 @@ export const ManajemenUser = () => {
             const response = await api.get('/users')
             const users = response.data.data || []
             setUsersData(users)
-            setStats({
-                totalMahasiswa: users.filter((u: UserData) => u.role === 'mahasiswa').length,
-                totalDosen: users.filter((u: UserData) => u.role === 'dosen').length,
-                totalAktif: users.filter((u: UserData) => u.status === 'aktif').length
-            })
         } catch (error) {
             console.error('Failed to refetch users:', error)
         }
@@ -589,65 +575,91 @@ export const ManajemenUser = () => {
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
-                                            {filteredUsers.map((userData, index) => (
-                                                <motion.tr
-                                                    key={userData._id}
-                                                    initial={{ opacity: 0, y: 10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: 0.05 * index }}
-                                                    className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
-                                                >
-                                                    <TableCell>
-                                                        <div className="flex items-center gap-3">
-                                                            <Avatar className="w-10 h-10">
-                                                                <AvatarImage src={userData.avatar} />
-                                                                <AvatarFallback className={`text-white text-sm ${userData.role === 'dosen' ? 'bg-gradient-to-br from-purple-500 to-purple-600' : 'bg-gradient-to-br from-blue-500 to-blue-600'}`}>
-                                                                    {userData.name.split(' ').map((n: string) => n[0]).slice(0, 2).join('')}
-                                                                </AvatarFallback>
-                                                            </Avatar>
-                                                            <div>
-                                                                <p className="font-medium text-gray-800">{userData.name}</p>
-                                                                {userData.prodi && <p className="text-xs text-gray-400">{userData.prodi}</p>}
+                                            {filteredUsers.length === 0 ? (
+                                                <TableRow>
+                                                    <TableCell colSpan={6} className="h-32">
+                                                        <div className="flex flex-col items-center justify-center text-center py-8">
+                                                            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                                                                <Users className="w-8 h-8 text-gray-400" />
                                                             </div>
+                                                            <h3 className="text-lg font-medium text-gray-700 mb-1">Belum ada data user</h3>
+                                                            <p className="text-sm text-gray-500 mb-4">
+                                                                {searchQuery || roleFilter !== 'all'
+                                                                    ? 'Tidak ada user yang sesuai dengan filter pencarian'
+                                                                    : 'Klik tombol "Tambah User" untuk menambahkan mahasiswa atau dosen baru'}
+                                                            </p>
+                                                            {!searchQuery && roleFilter === 'all' && (
+                                                                <Button
+                                                                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl"
+                                                                    onClick={() => setShowAddModal(true)}
+                                                                >
+                                                                    <Plus className="w-4 h-4 mr-2" />Tambah User
+                                                                </Button>
+                                                            )}
                                                         </div>
                                                     </TableCell>
-                                                    <TableCell className="font-medium text-gray-700">{userData.nim_nip}</TableCell>
-                                                    <TableCell className="text-gray-600">{userData.email}</TableCell>
-                                                    <TableCell>{getRoleBadge(userData.role)}</TableCell>
-                                                    <TableCell>{getStatusBadge(userData.status)}</TableCell>
-                                                    <TableCell className="text-center">
-                                                        <DropdownMenu>
-                                                            <DropdownMenuTrigger asChild>
-                                                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                                                    <MoreHorizontal className="w-4 h-4" />
-                                                                </Button>
-                                                            </DropdownMenuTrigger>
-                                                            <DropdownMenuContent align="end">
-                                                                <DropdownMenuItem
-                                                                    className="cursor-pointer"
-                                                                    onClick={() => navigate(userData.role === 'mahasiswa' ? `/admin/users/mahasiswa/${userData._id}` : `/admin/users/dosen/${userData._id}`)}
-                                                                >
-                                                                    <Eye className="w-4 h-4 mr-2" />Detail
-                                                                </DropdownMenuItem>
-                                                                {userData.role === 'mahasiswa' && (
+                                                </TableRow>
+                                            ) : (
+                                                filteredUsers.map((userData, index) => (
+                                                    <motion.tr
+                                                        key={userData._id}
+                                                        initial={{ opacity: 0, y: 10 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ delay: 0.05 * index }}
+                                                        className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                                                    >
+                                                        <TableCell>
+                                                            <div className="flex items-center gap-3">
+                                                                <Avatar className="w-10 h-10">
+                                                                    <AvatarImage src={userData.avatar} />
+                                                                    <AvatarFallback className={`text-white text-sm ${userData.role === 'dosen' ? 'bg-gradient-to-br from-purple-500 to-purple-600' : 'bg-gradient-to-br from-blue-500 to-blue-600'}`}>
+                                                                        {userData.name.split(' ').map((n: string) => n[0]).slice(0, 2).join('')}
+                                                                    </AvatarFallback>
+                                                                </Avatar>
+                                                                <div>
+                                                                    <p className="font-medium text-gray-800">{userData.name}</p>
+                                                                    {userData.prodi && <p className="text-xs text-gray-400">{userData.prodi}</p>}
+                                                                </div>
+                                                            </div>
+                                                        </TableCell>
+                                                        <TableCell className="font-medium text-gray-700">{userData.nim_nip}</TableCell>
+                                                        <TableCell className="text-gray-600">{userData.email}</TableCell>
+                                                        <TableCell>{getRoleBadge(userData.role)}</TableCell>
+                                                        <TableCell>{getStatusBadge(userData.status)}</TableCell>
+                                                        <TableCell className="text-center">
+                                                            <DropdownMenu>
+                                                                <DropdownMenuTrigger asChild>
+                                                                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                                                        <MoreHorizontal className="w-4 h-4" />
+                                                                    </Button>
+                                                                </DropdownMenuTrigger>
+                                                                <DropdownMenuContent align="end">
                                                                     <DropdownMenuItem
                                                                         className="cursor-pointer"
-                                                                        onClick={() => openEditModal(userData)}
+                                                                        onClick={() => navigate(userData.role === 'mahasiswa' ? `/admin/users/mahasiswa/${userData._id}` : `/admin/users/dosen/${userData._id}`)}
                                                                     >
-                                                                        <Edit className="w-4 h-4 mr-2" />Edit Dospem
+                                                                        <Eye className="w-4 h-4 mr-2" />Detail
                                                                     </DropdownMenuItem>
-                                                                )}
-                                                                <DropdownMenuItem
-                                                                    className="cursor-pointer text-red-600"
-                                                                    onClick={() => openDeleteModal(userData)}
-                                                                >
-                                                                    <Trash2 className="w-4 h-4 mr-2" />Hapus
-                                                                </DropdownMenuItem>
-                                                            </DropdownMenuContent>
-                                                        </DropdownMenu>
-                                                    </TableCell>
-                                                </motion.tr>
-                                            ))}
+                                                                    {userData.role === 'mahasiswa' && (
+                                                                        <DropdownMenuItem
+                                                                            className="cursor-pointer"
+                                                                            onClick={() => openEditModal(userData)}
+                                                                        >
+                                                                            <Edit className="w-4 h-4 mr-2" />Edit Dospem
+                                                                        </DropdownMenuItem>
+                                                                    )}
+                                                                    <DropdownMenuItem
+                                                                        className="cursor-pointer text-red-600"
+                                                                        onClick={() => openDeleteModal(userData)}
+                                                                    >
+                                                                        <Trash2 className="w-4 h-4 mr-2" />Hapus
+                                                                    </DropdownMenuItem>
+                                                                </DropdownMenuContent>
+                                                            </DropdownMenu>
+                                                        </TableCell>
+                                                    </motion.tr>
+                                                ))
+                                            )}
                                         </TableBody>
                                     </Table>
                                 )}

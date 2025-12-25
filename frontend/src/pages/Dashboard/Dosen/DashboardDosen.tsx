@@ -39,7 +39,6 @@ import {
     TrendingUp,
     TrendingDown,
     Clock,
-    BookOpen,
     ChevronLeft,
     ChevronRight,
     LogOut,
@@ -583,31 +582,58 @@ export const DashboardDosen = () => {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {filteredStudents.map((student, index) => (
-                                            <motion.tr
-                                                key={student.id}
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 0.1 * index }}
-                                                className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
-                                            >
-                                                <TableCell className="font-medium text-gray-700">{student.nim}</TableCell>
-                                                <TableCell className="text-gray-700">{student.nama}</TableCell>
-                                                <TableCell className="text-gray-600">{student.progress}</TableCell>
-                                                <TableCell className="text-gray-600">{student.tanggalUpdate}</TableCell>
-                                                <TableCell>{getStatusBadge(student)}</TableCell>
-                                                <TableCell className="text-center">
-                                                    <motion.button
-                                                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                        whileHover={{ scale: 1.1 }}
-                                                        whileTap={{ scale: 0.9 }}
-                                                        onClick={() => navigate(`/bimbingan/dosen/${student.id}`)}
-                                                    >
-                                                        <ExternalLink className="w-4 h-4" />
-                                                    </motion.button>
+                                        {isLoading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={6} className="h-32">
+                                                    <div className="flex items-center justify-center py-8">
+                                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                                                        <span className="ml-3 text-gray-500">Memuat data...</span>
+                                                    </div>
                                                 </TableCell>
-                                            </motion.tr>
-                                        ))}
+                                            </TableRow>
+                                        ) : filteredStudents.length === 0 ? (
+                                            <TableRow>
+                                                <TableCell colSpan={6} className="h-32">
+                                                    <div className="flex flex-col items-center justify-center text-center py-8">
+                                                        <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                                                            <Users className="w-8 h-8 text-gray-400" />
+                                                        </div>
+                                                        <h3 className="text-lg font-medium text-gray-700 mb-1">Belum ada mahasiswa bimbingan</h3>
+                                                        <p className="text-sm text-gray-500">
+                                                            {searchQuery
+                                                                ? 'Tidak ada mahasiswa yang sesuai dengan pencarian'
+                                                                : 'Anda belum memiliki mahasiswa bimbingan'}
+                                                        </p>
+                                                    </div>
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : (
+                                            filteredStudents.map((student, index) => (
+                                                <motion.tr
+                                                    key={student.id}
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ delay: 0.1 * index }}
+                                                    className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                                                >
+                                                    <TableCell className="font-medium text-gray-700">{student.nim}</TableCell>
+                                                    <TableCell className="text-gray-700">{student.nama}</TableCell>
+                                                    <TableCell className="text-gray-600">{student.progress}</TableCell>
+                                                    <TableCell className="text-gray-600">{student.tanggalUpdate}</TableCell>
+                                                    <TableCell>{getStatusBadge(student)}</TableCell>
+                                                    <TableCell className="text-center">
+                                                        <motion.button
+                                                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                            whileHover={{ scale: 1.1 }}
+                                                            whileTap={{ scale: 0.9 }}
+                                                            onClick={() => navigate(`/bimbingan/dosen/${student.id}`)}
+                                                        >
+                                                            <ExternalLink className="w-4 h-4" />
+                                                        </motion.button>
+                                                    </TableCell>
+                                                </motion.tr>
+                                            ))
+                                        )}
                                     </TableBody>
                                 </Table>
                             </div>

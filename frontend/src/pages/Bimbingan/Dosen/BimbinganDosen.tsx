@@ -26,7 +26,6 @@ import {
     Calendar,
     Bell,
     ChevronDown,
-    BookOpen,
     LogOut,
     Settings,
     User,
@@ -640,6 +639,29 @@ export const BimbinganDosen = () => {
                                     </p>
                                 </div>
                             </div>
+                        )}
+
+                        {/* No Bimbingan Submitted Yet */}
+                        {!bimbinganData && (
+                            <motion.div variants={itemVariants} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                                <div className="flex flex-col items-center justify-center text-center">
+                                    <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                                        <FileText className="w-8 h-8 text-gray-400" />
+                                    </div>
+                                    <h3 className="text-lg font-medium text-gray-700 mb-1">Belum ada bimbingan</h3>
+                                    <p className="text-sm text-gray-500 mb-4">
+                                        Mahasiswa ini belum mengirim file bimbingan
+                                    </p>
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => navigate('/dosen/mahasiswa')}
+                                        className="rounded-xl"
+                                    >
+                                        <ArrowLeft className="w-4 h-4 mr-2" />
+                                        Kembali ke Daftar Mahasiswa
+                                    </Button>
+                                </div>
+                            </motion.div>
                         )}
 
                         {/* Already Reviewed Message */}

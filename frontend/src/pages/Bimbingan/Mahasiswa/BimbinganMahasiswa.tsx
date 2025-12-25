@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { Input } from '@/components/ui/input'
@@ -20,7 +20,6 @@ import {
     FileText,
     Bell,
     ChevronDown,
-    BookOpen,
     LogOut,
     Settings,
     User,
@@ -79,11 +78,7 @@ export const BimbinganMahasiswa = () => {
     const dospem2Name = typeof user?.dospem_2 === 'object' ? user.dospem_2?.name : 'Dosen Pembimbing 2'
 
     // Fetch bimbingan data
-    useEffect(() => {
-        fetchBimbingan()
-    }, [activeTab])
-
-    const fetchBimbingan = async () => {
+    const fetchBimbingan = useCallback(async () => {
         setIsLoading(true)
         setError(null)
         try {
@@ -98,7 +93,11 @@ export const BimbinganMahasiswa = () => {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [activeTab])
+
+    useEffect(() => {
+        fetchBimbingan()
+    }, [fetchBimbingan])
 
     const currentHistory = bimbinganList
     const latestStatus = currentHistory[0]?.status
@@ -476,118 +475,132 @@ export const BimbinganMahasiswa = () => {
                         <motion.div variants={itemVariants}>
                             <h3 className="text-lg font-bold text-gray-800 mb-4">Riwayat Bimbingan</h3>
                             <div className="space-y-3">
-                                {currentHistory.map((item, index) => (
-                                    <motion.div
-                                        key={item._id}
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: index * 0.05 }}
-                                        className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
-                                    >
-                                        {/* Header */}
-                                        <div
-                                            className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
-                                            onClick={() => setExpandedId(expandedId === item._id ? null : item._id)}
-                                        >
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                                                        <span className="font-bold text-gray-600 text-sm">{item.version}</span>
-                                                    </div>
-                                                    <div>
-                                                        <h4 className="font-semibold text-gray-800">{item.judul}</h4>
-                                                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                                                            <Paperclip className="w-3 h-3" />
-                                                            <span>{item.fileName}</span>
-                                                            <span>•</span>
-                                                            <span>{item.fileSize}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center gap-3">
-                                                    {getStatusBadge(item.status)}
-                                                    <motion.div animate={{ rotate: expandedId === item.id ? 90 : 0 }}>
-                                                        <ChevronRight className="w-5 h-5 text-gray-400" />
-                                                    </motion.div>
-                                                </div>
+                                {currentHistory.length === 0 ? (
+                                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                                        <div className="flex flex-col items-center justify-center text-center">
+                                            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                                                <FileText className="w-8 h-8 text-gray-400" />
                                             </div>
-                                            <p className="text-xs text-gray-400 mt-2">Dikirim: {item.tanggalKirim}</p>
+                                            <h3 className="text-lg font-medium text-gray-700 mb-1">Belum ada riwayat bimbingan</h3>
+                                            <p className="text-sm text-gray-500">
+                                                Mulai kirim bimbingan pertama Anda dengan mengisi form di atas
+                                            </p>
                                         </div>
-
-                                        {/* Expanded Content */}
-                                        <AnimatePresence>
-                                            {expandedId === item.id && (
-                                                <motion.div
-                                                    initial={{ height: 0, opacity: 0 }}
-                                                    animate={{ height: 'auto', opacity: 1 }}
-                                                    exit={{ height: 0, opacity: 0 }}
-                                                    className="border-t border-gray-100"
-                                                >
-                                                    <div className="p-4 space-y-4">
-                                                        {/* Catatan Mahasiswa */}
-                                                        <div className="bg-blue-50 rounded-xl p-3">
-                                                            <p className="text-xs font-medium text-blue-600 mb-1">Catatan Anda:</p>
-                                                            <p className="text-sm text-gray-700">{item.catatan}</p>
+                                    </div>
+                                ) : (
+                                    currentHistory.map((item, index) => (
+                                        <motion.div
+                                            key={item._id}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: index * 0.05 }}
+                                            className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
+                                        >
+                                            {/* Header */}
+                                            <div
+                                                className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+                                                onClick={() => setExpandedId(expandedId === item._id ? null : item._id)}
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                                                            <span className="font-bold text-gray-600 text-sm">{item.version}</span>
                                                         </div>
-
-                                                        {/* Feedback Dosen */}
-                                                        {item.feedback && (
-                                                            <div className="bg-gray-50 rounded-xl p-3">
-                                                                <div className="flex items-center gap-2 mb-1">
-                                                                    <MessageSquare className="w-4 h-4 text-gray-500" />
-                                                                    <p className="text-xs font-medium text-gray-600">Feedback Dosen ({item.tanggalFeedback}):</p>
-                                                                </div>
-                                                                <p className="text-sm text-gray-700">{item.feedback}</p>
+                                                        <div>
+                                                            <h4 className="font-semibold text-gray-800">{item.judul}</h4>
+                                                            <div className="flex items-center gap-2 text-xs text-gray-500">
+                                                                <Paperclip className="w-3 h-3" />
+                                                                <span>{item.fileName}</span>
+                                                                <span>•</span>
+                                                                <span>{item.fileSize}</span>
                                                             </div>
-                                                        )}
-
-                                                        {/* Replies */}
-                                                        {item.replies && item.replies.length > 0 && (
-                                                            <div className="space-y-2 pl-4 border-l-2 border-gray-200">
-                                                                {item.replies.map((reply) => (
-                                                                    <div key={reply._id || reply.id} className={`p-3 rounded-xl ${reply.senderRole === 'mahasiswa' ? 'bg-blue-50' : 'bg-gray-50'}`}>
-                                                                        <div className="flex items-center gap-2 mb-1">
-                                                                            <span className={`text-xs font-medium ${reply.senderRole === 'mahasiswa' ? 'text-blue-600' : 'text-gray-600'}`}>
-                                                                                {reply.senderRole === 'mahasiswa' ? 'Anda' : 'Dosen'}
-                                                                            </span>
-                                                                            <span className="text-xs text-gray-400">{reply.timestamp || reply.formattedTime}</span>
-                                                                        </div>
-                                                                        <p className="text-sm text-gray-700">{reply.message}</p>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        )}
-
-                                                        {/* Reply Input */}
-                                                        {item.status !== 'menunggu' && (
-                                                            <div className="flex gap-2">
-                                                                <Input
-                                                                    placeholder="Tulis balasan..."
-                                                                    value={replyText}
-                                                                    onChange={(e) => setReplyText(e.target.value)}
-                                                                    className="flex-1 rounded-xl"
-                                                                />
-                                                                <Button onClick={() => handleSendReply(item._id)} className="rounded-xl bg-blue-500 hover:bg-blue-600">
-                                                                    <Send className="w-4 h-4" />
-                                                                </Button>
-                                                            </div>
-                                                        )}
-
-                                                        {/* Download Button */}
-                                                        <Button
-                                                            variant="outline"
-                                                            className="w-full rounded-xl"
-                                                            onClick={() => handleDownload(item.id || item._id, item.fileName)}
-                                                        >
-                                                            <Download className="w-4 h-4 mr-2" />
-                                                            Download {item.fileName}
-                                                        </Button>
+                                                        </div>
                                                     </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </motion.div>
-                                ))}
+                                                    <div className="flex items-center gap-3">
+                                                        {getStatusBadge(item.status)}
+                                                        <motion.div animate={{ rotate: expandedId === item.id ? 90 : 0 }}>
+                                                            <ChevronRight className="w-5 h-5 text-gray-400" />
+                                                        </motion.div>
+                                                    </div>
+                                                </div>
+                                                <p className="text-xs text-gray-400 mt-2">Dikirim: {item.tanggalKirim}</p>
+                                            </div>
+
+                                            {/* Expanded Content */}
+                                            <AnimatePresence>
+                                                {expandedId === item.id && (
+                                                    <motion.div
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: 'auto', opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        className="border-t border-gray-100"
+                                                    >
+                                                        <div className="p-4 space-y-4">
+                                                            {/* Catatan Mahasiswa */}
+                                                            <div className="bg-blue-50 rounded-xl p-3">
+                                                                <p className="text-xs font-medium text-blue-600 mb-1">Catatan Anda:</p>
+                                                                <p className="text-sm text-gray-700">{item.catatan}</p>
+                                                            </div>
+
+                                                            {/* Feedback Dosen */}
+                                                            {item.feedback && (
+                                                                <div className="bg-gray-50 rounded-xl p-3">
+                                                                    <div className="flex items-center gap-2 mb-1">
+                                                                        <MessageSquare className="w-4 h-4 text-gray-500" />
+                                                                        <p className="text-xs font-medium text-gray-600">Feedback Dosen ({item.tanggalFeedback}):</p>
+                                                                    </div>
+                                                                    <p className="text-sm text-gray-700">{item.feedback}</p>
+                                                                </div>
+                                                            )}
+
+                                                            {/* Replies */}
+                                                            {item.replies && item.replies.length > 0 && (
+                                                                <div className="space-y-2 pl-4 border-l-2 border-gray-200">
+                                                                    {item.replies.map((reply) => (
+                                                                        <div key={reply._id || reply.id} className={`p-3 rounded-xl ${reply.senderRole === 'mahasiswa' ? 'bg-blue-50' : 'bg-gray-50'}`}>
+                                                                            <div className="flex items-center gap-2 mb-1">
+                                                                                <span className={`text-xs font-medium ${reply.senderRole === 'mahasiswa' ? 'text-blue-600' : 'text-gray-600'}`}>
+                                                                                    {reply.senderRole === 'mahasiswa' ? 'Anda' : 'Dosen'}
+                                                                                </span>
+                                                                                <span className="text-xs text-gray-400">{reply.timestamp || reply.formattedTime}</span>
+                                                                            </div>
+                                                                            <p className="text-sm text-gray-700">{reply.message}</p>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+
+                                                            {/* Reply Input */}
+                                                            {item.status !== 'menunggu' && (
+                                                                <div className="flex gap-2">
+                                                                    <Input
+                                                                        placeholder="Tulis balasan..."
+                                                                        value={replyText}
+                                                                        onChange={(e) => setReplyText(e.target.value)}
+                                                                        className="flex-1 rounded-xl"
+                                                                    />
+                                                                    <Button onClick={() => handleSendReply(item._id)} className="rounded-xl bg-blue-500 hover:bg-blue-600">
+                                                                        <Send className="w-4 h-4" />
+                                                                    </Button>
+                                                                </div>
+                                                            )}
+
+                                                            {/* Download Button */}
+                                                            <Button
+                                                                variant="outline"
+                                                                className="w-full rounded-xl"
+                                                                onClick={() => handleDownload(item.id || item._id, item.fileName)}
+                                                            >
+                                                                <Download className="w-4 h-4 mr-2" />
+                                                                Download {item.fileName}
+                                                            </Button>
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </motion.div>
+                                    ))
+                                )}
                             </div>
                         </motion.div>
 
