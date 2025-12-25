@@ -1,0 +1,109 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.9">
+  <diagram name="Class Diagram SIMTA" id="class-simta">
+    <mxGraphModel dx="1626" dy="906" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=#000000;fillColor=#ffffff;align=center;verticalAlign=middle;whiteSpace=wrap;fontStyle=1;fontSize=13;" value="CLASS DIAGRAM SISTEM SIMTA" vertex="1">
+          <mxGeometry height="30" width="938" x="141" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="user-class" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#ffffff;strokeColor=#000000;fontSize=13;" value="User" vertex="1">
+          <mxGeometry height="290" width="200" x="154" y="107" as="geometry" />
+        </mxCell>
+        <mxCell id="user-attr" parent="user-class" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+ nim_nip : String&#xa;+ password : String&#xa;+ name : String&#xa;+ email : String&#xa;+ role : String&#xa;+ prodi : String&#xa;+ semester : String&#xa;+ judulTA : String&#xa;+ currentProgress : String&#xa;+ dospem_1 : User&#xa;+ dospem_2 : User&#xa;+ status : String&#xa;+ whatsapp : String" vertex="1">
+          <mxGeometry height="208" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="user-line" parent="user-class" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#000000;fontSize=13;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="234" as="geometry" />
+        </mxCell>
+        <mxCell id="user-method" parent="user-class" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+ comparePassword()&#xa;+ toPublicJSON()" vertex="1">
+          <mxGeometry height="48" width="200" y="242" as="geometry" />
+        </mxCell>
+        <mxCell id="bimbingan-class" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#ffffff;strokeColor=#000000;fontSize=13;" value="Bimbingan" vertex="1">
+          <mxGeometry height="324" width="200" x="440" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="bimbingan-attr" parent="bimbingan-class" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+ mahasiswa : User&#xa;+ dosen : User&#xa;+ dosenType : String&#xa;+ version : String&#xa;+ judul : String&#xa;+ catatan : String&#xa;+ fileName : String&#xa;+ filePath : String&#xa;+ fileSize : String&#xa;+ status : String&#xa;+ feedback : String&#xa;+ feedbackDate : Date&#xa;+ feedbackFile : String" vertex="1">
+          <mxGeometry height="222" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="bimbingan-line" parent="bimbingan-class" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#000000;fontSize=13;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="248" as="geometry" />
+        </mxCell>
+        <mxCell id="bimbingan-method" parent="bimbingan-class" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+ giveFeedback()&#xa;+ getNextVersion()&#xa;+ hasPendingBimbingan()" vertex="1">
+          <mxGeometry height="68" width="200" y="256" as="geometry" />
+        </mxCell>
+        <mxCell id="reply-class" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#ffffff;strokeColor=#000000;fontSize=13;" value="Reply" vertex="1">
+          <mxGeometry height="160" width="200" x="440" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="reply-attr" parent="reply-class" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+ bimbingan : Bimbingan&#xa;+ sender : User&#xa;+ senderRole : String&#xa;+ message : String" vertex="1">
+          <mxGeometry height="78" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="reply-line" parent="reply-class" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#000000;fontSize=13;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="reply-method" parent="reply-class" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+ isOwner()&#xa;+ findByBimbingan()" vertex="1">
+          <mxGeometry height="48" width="200" y="112" as="geometry" />
+        </mxCell>
+        <mxCell id="jadwal-class" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#ffffff;strokeColor=#000000;fontSize=13;" value="JadwalSidang" vertex="1">
+          <mxGeometry height="315" width="200" x="751" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="jadwal-attr" parent="jadwal-class" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+ mahasiswa : User&#xa;+ jenisJadwal : String&#xa;+ tanggal : Date&#xa;+ waktuMulai : String&#xa;+ waktuSelesai : String&#xa;+ ruangan : String&#xa;+ penguji : User[]&#xa;+ status : String&#xa;+ hasil : String&#xa;+ nilaiSidang : Number&#xa;+ catatan : String&#xa;+ createdBy : User" vertex="1">
+          <mxGeometry height="204" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="jadwal-line" parent="jadwal-class" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#000000;fontSize=13;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="jadwal-method" parent="jadwal-class" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=13;" value="+ complete()&#xa;+ cancel()&#xa;+ getUpcoming()&#xa;+ isSlotAvailable()" vertex="1">
+          <mxGeometry height="77" width="200" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="rel1" edge="1" parent="1" source="user-class" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;strokeColor=#000000;fontSize=13;" target="bimbingan-class" value="1">
+          <mxGeometry relative="1" x="-0.5" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel1-label" connectable="0" parent="rel1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;" value="*" vertex="1">
+          <mxGeometry relative="1" x="0.8" as="geometry">
+            <mxPoint x="-10" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel2" edge="1" parent="1" source="bimbingan-class" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#000000;fontSize=13;" target="reply-class" value="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel2-label" connectable="0" parent="rel2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;" value="*" vertex="1">
+          <mxGeometry relative="1" x="0.8" as="geometry">
+            <mxPoint y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel3" edge="1" parent="1" source="user-class" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#000000;fontSize=13;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="jadwal-class" value="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="254" y="70" />
+              <mxPoint x="851" y="70" />
+            </Array>
+            <mxPoint x="254" y="91" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel3-label" connectable="0" parent="rel3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;" value="*" vertex="1">
+          <mxGeometry relative="1" x="0.9" as="geometry">
+            <mxPoint x="-10" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel4" edge="1" parent="1" source="user-method" style="endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#000000;fontSize=13;exitX=0.496;exitY=1.016;exitDx=0;exitDy=0;exitPerimeter=0;" target="reply-class" value="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="253" y="560" />
+            </Array>
+            <mxPoint x="260" y="454" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rel4-label" connectable="0" parent="rel4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=13;" value="*" vertex="1">
+          <mxGeometry relative="1" x="0.8" as="geometry">
+            <mxPoint y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend" parent="1" style="text;html=1;strokeColor=#000000;fillColor=#ffffff;align=left;verticalAlign=top;whiteSpace=wrap;fontSize=13;spacingLeft=5;spacingTop=5;" value="KETERANGAN RELASI:&#xa;◇──── 1 : * (Satu ke Banyak)&#xa;&#xa;- User 1 : * Bimbingan (Mahasiswa upload banyak bimbingan)&#xa;- User 1 : * JadwalSidang (Mahasiswa punya banyak jadwal)&#xa;- User 1 : * Reply (User kirim banyak komentar)&#xa;- Bimbingan 1 : * Reply (1 bimbingan punya banyak komentar)" vertex="1">
+          <mxGeometry height="173" width="350" x="711" y="461" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

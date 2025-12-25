@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tabel Spesifikasi Database SIMTA</title>
+    <style>
+        body {
+            font-family: Times New Roman, serif;
+            font-size: 12pt;
+            margin: 40px;
+        }
+
+        h2 {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        td:first-child {
+            text-align: center;
+            width: 30px;
+        }
+
+        td:nth-child(2) {
+            font-family: Consolas, monospace;
+        }
+
+        td:nth-child(3) {
+            width: 80px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Tabel 4.1 Spesifikasi Koleksi Users</h2>
+    <table>
+        <tr>
+            <th>No</th>
+            <th>Nama Field</th>
+            <th>Tipe Data</th>
+            <th>Deskripsi</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>_id</td>
+            <td>ObjectId</td>
+            <td>Pengenal unik yang dibangkitkan secara otomatis oleh basis data MongoDB.</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>nim_nip</td>
+            <td>String</td>
+            <td>Nomor Induk Mahasiswa atau Nomor Induk Pegawai sebagai identitas unik pengguna.</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>password</td>
+            <td>String</td>
+            <td>Kredensial keamanan pengguna yang telah terenkripsi menggunakan algoritma bcrypt.</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>name</td>
+            <td>String</td>
+            <td>Nama lengkap pengguna sesuai dengan data kependudukan.</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>email</td>
+            <td>String</td>
+            <td>Alamat surat elektronik pengguna untuk keperluan komunikasi.</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>role</td>
+            <td>String</td>
+            <td>Peran pengguna dalam sistem dengan nilai enum: mahasiswa, dosen, atau admin.</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>prodi</td>
+            <td>String</td>
+            <td>Program studi tempat mahasiswa terdaftar (khusus role mahasiswa).</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>semester</td>
+            <td>String</td>
+            <td>Semester aktif mahasiswa saat ini (khusus role mahasiswa).</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>judulTA</td>
+            <td>String</td>
+            <td>Judul Tugas Akhir atau Skripsi yang sedang dikerjakan mahasiswa.</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>currentProgress</td>
+            <td>String</td>
+            <td>Indikator tahapan bab terakhir yang diselesaikan dengan nilai: BAB I hingga Selesai.</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>dospem_1</td>
+            <td>ObjectId</td>
+            <td>Referensi ID ke data Dosen sebagai Pembimbing Utama (Pembimbing 1).</td>
+        </tr>
+        <tr>
+            <td>12</td>
+            <td>dospem_2</td>
+            <td>ObjectId</td>
+            <td>Referensi ID ke data Dosen sebagai Pembimbing Pendamping (Pembimbing 2).</td>
+        </tr>
+        <tr>
+            <td>13</td>
+            <td>status</td>
+            <td>String</td>
+            <td>Status keaktifan akun dengan nilai enum: aktif atau nonaktif.</td>
+        </tr>
+        <tr>
+            <td>14</td>
+            <td>whatsapp</td>
+            <td>String</td>
+            <td>Nomor telepon WhatsApp untuk keperluan komunikasi langsung.</td>
+        </tr>
+        <tr>
+            <td>15</td>
+            <td>createdAt</td>
+            <td>Date</td>
+            <td>Stempel waktu penciptaan dokumen yang dibangkitkan secara otomatis.</td>
+        </tr>
+        <tr>
+            <td>16</td>
+            <td>updatedAt</td>
+            <td>Date</td>
+            <td>Stempel waktu pembaruan terakhir dokumen yang dibangkitkan secara otomatis.</td>
+        </tr>
+    </table>
+
+    <h2>Tabel 4.2 Spesifikasi Koleksi Bimbingans</h2>
+    <table>
+        <tr>
+            <th>No</th>
+            <th>Nama Field</th>
+            <th>Tipe Data</th>
+            <th>Deskripsi</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>_id</td>
+            <td>ObjectId</td>
+            <td>Pengenal unik yang dibangkitkan secara otomatis oleh basis data MongoDB.</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>mahasiswa</td>
+            <td>ObjectId</td>
+            <td>Referensi ID ke koleksi Users yang mengidentifikasi mahasiswa pengunggah.</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>dosen</td>
+            <td>ObjectId</td>
+            <td>Referensi ID ke koleksi Users yang mengidentifikasi dosen penerima bimbingan.</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>dosenType</td>
+            <td>String</td>
+            <td>Klasifikasi dosen pembimbing dengan nilai enum: dospem_1 atau dospem_2.</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>version</td>
+            <td>String</td>
+            <td>Penanda versi dokumen bimbingan dengan format penomoran V1, V2, V3, dan seterusnya.</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>judul</td>
+            <td>String</td>
+            <td>Judul atau subjek bimbingan yang diajukan oleh mahasiswa.</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>catatan</td>
+            <td>String</td>
+            <td>Catatan atau pesan tambahan dari mahasiswa kepada dosen pembimbing.</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>fileName</td>
+            <td>String</td>
+            <td>Nama berkas yang tersimpan pada sistem penyimpanan server.</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>filePath</td>
+            <td>String</td>
+            <td>Lokasi absolut berkas dokumen pada sistem penyimpanan server.</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>fileSize</td>
+            <td>String</td>
+            <td>Ukuran berkas dokumen dalam satuan byte.</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>status</td>
+            <td>String</td>
+            <td>Status peninjauan bimbingan dengan nilai enum: menunggu, revisi, acc, atau lanjut_bab.</td>
+        </tr>
+        <tr>
+            <td>12</td>
+            <td>feedback</td>
+            <td>String</td>
+            <td>Umpan balik atau komentar yang diberikan oleh dosen pembimbing.</td>
+        </tr>
+        <tr>
+            <td>13</td>
+            <td>feedbackDate</td>
+            <td>Date</td>
+            <td>Stempel waktu pemberian umpan balik oleh dosen pembimbing.</td>
+        </tr>
+        <tr>
+            <td>14</td>
+            <td>feedbackFile</td>
+            <td>String</td>
+            <td>Lokasi berkas lampiran yang disertakan oleh dosen sebagai umpan balik.</td>
+        </tr>
+        <tr>
+            <td>15</td>
+            <td>createdAt</td>
+            <td>Date</td>
+            <td>Stempel waktu penciptaan dokumen yang dibangkitkan secara otomatis.</td>
+        </tr>
+        <tr>
+            <td>16</td>
+            <td>updatedAt</td>
+            <td>Date</td>
+            <td>Stempel waktu pembaruan terakhir dokumen yang dibangkitkan secara otomatis.</td>
+        </tr>
+    </table>
+
+    <h2>Tabel 4.3 Spesifikasi Koleksi Replies</h2>
+    <table>
+        <tr>
+            <th>No</th>
+            <th>Nama Field</th>
+            <th>Tipe Data</th>
+            <th>Deskripsi</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>_id</td>
+            <td>ObjectId</td>
+            <td>Pengenal unik yang dibangkitkan secara otomatis oleh basis data MongoDB.</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>bimbingan</td>
+            <td>ObjectId</td>
+            <td>Referensi ID ke koleksi Bimbingans sebagai induk percakapan.</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>sender</td>
+            <td>ObjectId</td>
+            <td>Referensi ID ke koleksi Users yang mengidentifikasi pengirim pesan.</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>senderRole</td>
+            <td>String</td>
+            <td>Peran pengirim pesan dengan nilai enum: mahasiswa atau dosen.</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>message</td>
+            <td>String</td>
+            <td>Isi pesan atau komentar yang disampaikan dalam diskusi.</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>createdAt</td>
+            <td>Date</td>
+            <td>Stempel waktu penciptaan dokumen yang dibangkitkan secara otomatis.</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>updatedAt</td>
+            <td>Date</td>
+            <td>Stempel waktu pembaruan terakhir dokumen yang dibangkitkan secara otomatis.</td>
+        </tr>
+    </table>
+
+    <h2>Tabel 4.4 Spesifikasi Koleksi Jadwals</h2>
+    <table>
+        <tr>
+            <th>No</th>
+            <th>Nama Field</th>
+            <th>Tipe Data</th>
+            <th>Deskripsi</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>_id</td>
+            <td>ObjectId</td>
+            <td>Pengenal unik yang dibangkitkan secara otomatis oleh basis data MongoDB.</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>mahasiswa</td>
+            <td>ObjectId</td>
+            <td>Referensi ID ke koleksi Users yang mengidentifikasi mahasiswa peserta sidang.</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>jenisJadwal</td>
+            <td>String</td>
+            <td>Klasifikasi jenis sidang dengan nilai enum: sidang_proposal atau sidang_skripsi.</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>tanggal</td>
+            <td>Date</td>
+            <td>Tanggal pelaksanaan sidang yang dijadwalkan.</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>waktuMulai</td>
+            <td>String</td>
+            <td>Jam dimulainya sidang dalam format HH:MM.</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>waktuSelesai</td>
+            <td>String</td>
+            <td>Jam berakhirnya sidang dalam format HH:MM.</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>ruangan</td>
+            <td>String</td>
+            <td>Lokasi ruangan tempat pelaksanaan sidang.</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>penguji</td>
+            <td>Array[ObjectId]</td>
+            <td>Daftar referensi ID ke koleksi Users yang berperan sebagai dosen penguji.</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>status</td>
+            <td>String</td>
+            <td>Status pelaksanaan sidang dengan nilai enum: dijadwalkan, berlangsung, selesai, atau dibatalkan.</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>hasil</td>
+            <td>String</td>
+            <td>Hasil penilaian sidang dengan nilai enum: lulus, lulus_revisi, atau tidak_lulus.</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>nilaiSidang</td>
+            <td>Number</td>
+            <td>Nilai numerik hasil sidang dalam rentang 0 hingga 100.</td>
+        </tr>
+        <tr>
+            <td>12</td>
+            <td>catatan</td>
+            <td>String</td>
+            <td>Catatan tambahan terkait pelaksanaan atau hasil sidang.</td>
+        </tr>
+        <tr>
+            <td>13</td>
+            <td>createdBy</td>
+            <td>ObjectId</td>
+            <td>Referensi ID ke koleksi Users yang mengidentifikasi administrator pembuat jadwal.</td>
+        </tr>
+        <tr>
+            <td>14</td>
+            <td>createdAt</td>
+            <td>Date</td>
+            <td>Stempel waktu penciptaan dokumen yang dibangkitkan secara otomatis.</td>
+        </tr>
+        <tr>
+            <td>15</td>
+            <td>updatedAt</td>
+            <td>Date</td>
+            <td>Stempel waktu pembaruan terakhir dokumen yang dibangkitkan secara otomatis.</td>
+        </tr>
+    </table>
+
+    <h2>Tabel 4.5 Relasi Antar Koleksi</h2>
+    <table>
+        <tr>
+            <th>Koleksi Asal</th>
+            <th>Koleksi Tujuan</th>
+            <th>Jenis Relasi</th>
+            <th>Keterangan</th>
+        </tr>
+        <tr>
+            <td>Users</td>
+            <td>Users</td>
+            <td>One-to-One</td>
+            <td>Mahasiswa memiliki referensi ke Dosen Pembimbing 1 dan 2.</td>
+        </tr>
+        <tr>
+            <td>Users</td>
+            <td>Bimbingans</td>
+            <td>One-to-Many</td>
+            <td>Satu mahasiswa dapat mengunggah banyak dokumen bimbingan.</td>
+        </tr>
+        <tr>
+            <td>Users</td>
+            <td>Jadwals</td>
+            <td>One-to-Many</td>
+            <td>Satu mahasiswa dapat memiliki banyak jadwal sidang.</td>
+        </tr>
+        <tr>
+            <td>Users</td>
+            <td>Jadwals</td>
+            <td>Many-to-Many</td>
+            <td>Banyak dosen dapat menjadi penguji di banyak jadwal sidang.</td>
+        </tr>
+        <tr>
+            <td>Bimbingans</td>
+            <td>Replies</td>
+            <td>One-to-Many</td>
+            <td>Satu bimbingan dapat memiliki banyak pesan diskusi.</td>
+        </tr>
+        <tr>
+            <td>Users</td>
+            <td>Replies</td>
+            <td>One-to-Many</td>
+            <td>Satu pengguna dapat mengirim banyak pesan diskusi.</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

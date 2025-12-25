@@ -1,0 +1,43 @@
+# ===========================================
+# SIMTA Project - Git Ignore
+# ===========================================
+
+# Dependencies
+node_modules/
+
+# Environment files (JANGAN commit!)
+.env
+.env.local
+.env.*.local
+
+# IDE & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build outputs
+dist/
+build/
+
+# Uploads (file bimbingan)
+uploads/*
+!uploads/.gitkeep
+
+# Temporary files
+*.tmp
+*.temp
+
+# Gemini/AI configs (optional)
+.gemini/
+
+# Diagram source files (optional - uncomment if too large)
+# Z_Diagram/

@@ -1,0 +1,93 @@
+<mxfile host="app.diagrams.net" modified="2024-12-21" agent="Mozilla/5.0" version="22.1.0">
+  <diagram name="Login Mahasiswa" id="login-mahasiswa">
+    <mxGraphModel dx="1000" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- SWIMLANE HEADERS -->
+        <mxCell id="lane1" value="Mahasiswa" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="200" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane2" value="Sistem" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="240" y="40" width="200" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="lane3" value="Database" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="440" y="40" width="200" height="400" as="geometry"/>
+        </mxCell>
+        
+        <!-- START -->
+        <mxCell id="start" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="120" y="70" width="30" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- MAHASISWA ACTIONS -->
+        <mxCell id="a1" value="Memasukkan NIM dan Password" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="70" y="130" width="140" height="40" as="geometry"/>
+        </mxCell>
+        
+        <!-- SISTEM ACTIONS -->
+        <mxCell id="s1" value="Memeriksa Data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="270" y="130" width="140" height="40" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="s2" value="Data Valid?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="295" y="200" width="90" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- DATABASE -->
+        <mxCell id="d1" value="Validasi Akun" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="470" y="200" width="140" height="40" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="d2" value="Akun Valid?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="495" y="270" width="90" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- HASIL -->
+        <mxCell id="s3" value="Tampilkan Dashboard Mahasiswa" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="270" y="350" width="140" height="40" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="s4" value="Tampilkan Pesan Gagal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="470" y="350" width="140" height="40" as="geometry"/>
+        </mxCell>
+        
+        <!-- END -->
+        <mxCell id="end" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#000000;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="120" y="390" width="30" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- ARROWS -->
+        <mxCell id="arr1" style="endArrow=classic;html=1;" edge="1" parent="1" source="start" target="a1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arr2" style="endArrow=classic;html=1;" edge="1" parent="1" source="a1" target="s1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arr3" style="endArrow=classic;html=1;" edge="1" parent="1" source="s1" target="s2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arr4" value="Ya" style="endArrow=classic;html=1;" edge="1" parent="1" source="s2" target="d1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arr5" style="endArrow=classic;html=1;" edge="1" parent="1" source="d1" target="d2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arr6" value="Ya" style="endArrow=classic;html=1;" edge="1" parent="1" source="d2" target="s3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arr7" value="Tidak" style="endArrow=classic;html=1;" edge="1" parent="1" source="d2" target="s4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arr8" style="endArrow=classic;html=1;" edge="1" parent="1" source="s3" target="end">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="arr9" value="Tidak" style="endArrow=classic;html=1;dashed=1;" edge="1" parent="1" source="s2" target="a1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

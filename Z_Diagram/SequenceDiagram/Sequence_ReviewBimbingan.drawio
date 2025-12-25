@@ -1,0 +1,106 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.9">
+  <diagram name="Sequence Review Bimbingan" id="seq-review">
+    <mxGraphModel dx="813" dy="453" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=#000000;fillColor=#ffffff;align=center;verticalAlign=middle;whiteSpace=wrap;fontStyle=1;fontSize=14;" value="SEQUENCE DIAGRAM DOSEN REVIEW BIMBINGAN" vertex="1">
+          <mxGeometry height="30" width="663" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="actor1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fillColor=#ffffff;strokeColor=#000000;" value="Dosen" vertex="1">
+          <mxGeometry height="60" width="30" x="70" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="obj1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="Halaman Review" vertex="1">
+          <mxGeometry height="40" width="120" x="180" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="obj2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="Sistem" vertex="1">
+          <mxGeometry height="40" width="100" x="400" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="obj3" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;size=10;fillColor=#ffffff;strokeColor=#000000;" value="Database" vertex="1">
+          <mxGeometry height="60" width="80" x="600" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="life1" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="85" y="130" as="sourcePoint" />
+            <mxPoint x="85" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life2" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="240" y="120" as="sourcePoint" />
+            <mxPoint x="240" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life3" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="120" as="sourcePoint" />
+            <mxPoint x="450" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life4" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#000000;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="130" as="sourcePoint" />
+            <mxPoint x="640" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="350" width="14" x="233" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="act2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="270" width="14" x="443" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="act3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="150" width="14" x="633" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="msg1" edge="1" parent="1" style="endArrow=classic;html=1;strokeColor=#000000;" value="1: Pilih Bimbingan dan Isi Feedback">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="85" y="160" as="sourcePoint" />
+            <mxPoint x="233" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg2" edge="1" parent="1" style="endArrow=classic;html=1;strokeColor=#000000;" value="2: Kirim Data Review">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="247" y="200" as="sourcePoint" />
+            <mxPoint x="443" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg3" edge="1" parent="1" style="endArrow=classic;html=1;strokeColor=#000000;" value="3: Cari Data Bimbingan">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="457" y="240" as="sourcePoint" />
+            <mxPoint x="633" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg4" edge="1" parent="1" style="endArrow=classic;html=1;strokeColor=#000000;dashed=1;" value="4: Data Bimbingan Ditemukan">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="633" y="280" as="sourcePoint" />
+            <mxPoint x="457" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg5" edge="1" parent="1" style="endArrow=classic;html=1;strokeColor=#000000;" value="5: Update Status dan Feedback">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="457" y="320" as="sourcePoint" />
+            <mxPoint x="633" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg6" edge="1" parent="1" style="endArrow=classic;html=1;strokeColor=#000000;" value="6: Update Progress Mahasiswa">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="457" y="360" as="sourcePoint" />
+            <mxPoint x="633" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg7" edge="1" parent="1" style="endArrow=classic;html=1;strokeColor=#000000;dashed=1;" value="7: Kirim Konfirmasi Sukses">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="443" y="420" as="sourcePoint" />
+            <mxPoint x="247" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg8" edge="1" parent="1" style="endArrow=classic;html=1;strokeColor=#000000;dashed=1;" value="8: Tampilkan Pesan Sukses">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="233" y="470" as="sourcePoint" />
+            <mxPoint x="85" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

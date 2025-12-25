@@ -1,0 +1,112 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.3">
+  <diagram name="Flowchart Login" id="flowchart-login">
+    <mxGraphModel dx="1161" dy="647" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="800" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;" value="FLOWCHART PROSES LOGIN" vertex="1">
+          <mxGeometry height="30" width="300" x="250" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" value="MULAI" vertex="1">
+          <mxGeometry height="50" width="120" x="340" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="input1" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Input NIM/NIP&#xa;dan Password" vertex="1">
+          <mxGeometry height="60" width="160" x="320" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="arr1" edge="1" parent="1" source="start" style="endArrow=classic;html=1;" target="input1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="proc1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Cari User di Database&#xa;berdasarkan NIM/NIP" vertex="1">
+          <mxGeometry height="60" width="160" x="320" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="arr2" edge="1" parent="1" source="input1" style="endArrow=classic;html=1;" target="proc1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dec1" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="User&#xa;Ditemukan?" vertex="1">
+          <mxGeometry height="80" width="140" x="330" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="arr3" edge="1" parent="1" source="proc1" style="endArrow=classic;html=1;" target="dec1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="err1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Tampilkan Pesan Error:&#xa;&quot;User tidak ditemukan&quot;" vertex="1">
+          <mxGeometry height="60" width="160" x="530" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="arr4" edge="1" parent="1" source="dec1" style="endArrow=classic;html=1;" target="err1" value="TIDAK">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dec2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Status&#xa;Akun Aktif?" vertex="1">
+          <mxGeometry height="80" width="140" x="330" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="arr5" edge="1" parent="1" source="dec1" style="endArrow=classic;html=1;" target="dec2" value="YA">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="err2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Tampilkan Pesan Error:&#xa;&quot;Akun tidak aktif&quot;" vertex="1">
+          <mxGeometry height="60" width="160" x="530" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="arr6" edge="1" parent="1" source="dec2" style="endArrow=classic;html=1;" target="err2" value="TIDAK">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="proc2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Verifikasi Password&#xa;(bcrypt.compare)" vertex="1">
+          <mxGeometry height="60" width="160" x="320" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="arr7" edge="1" parent="1" source="dec2" style="endArrow=classic;html=1;" target="proc2" value="YA">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dec3" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Password&#xa;Valid?" vertex="1">
+          <mxGeometry height="80" width="140" x="330" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="arr8" edge="1" parent="1" source="proc2" style="endArrow=classic;html=1;" target="dec3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="err3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Tampilkan Pesan Error:&#xa;&quot;Password salah&quot;" vertex="1">
+          <mxGeometry height="60" width="160" x="530" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="arr9" edge="1" parent="1" source="dec3" style="endArrow=classic;html=1;" target="err3" value="TIDAK">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="proc3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Generate JWT Token&#xa;(Access + Refresh)" vertex="1">
+          <mxGeometry height="60" width="160" x="320" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="arr10" edge="1" parent="1" source="dec3" style="endArrow=classic;html=1;" target="proc3" value="YA">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="out1" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Tampilkan Dashboard&#xa;sesuai Role User" vertex="1">
+          <mxGeometry height="60" width="160" x="320" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="arr11" edge="1" parent="1" source="proc3" style="endArrow=classic;html=1;" target="out1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;" value="SELESAI" vertex="1">
+          <mxGeometry height="50" width="120" x="340" y="930" as="geometry" />
+        </mxCell>
+        <mxCell id="arr12" edge="1" parent="1" source="out1" style="endArrow=classic;html=1;" target="end" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-err1" edge="1" parent="1" source="err1" style="endArrow=classic;html=1;dashed=1;edgeStyle=orthogonalEdgeStyle;" target="end" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="370" />
+              <mxPoint x="760" y="955" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr-err2" edge="1" parent="1" source="err2" style="endArrow=classic;html=1;dashed=1;edgeStyle=orthogonalEdgeStyle;" target="end" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="480" />
+              <mxPoint x="760" y="955" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr-err3" edge="1" parent="1" source="err3" style="endArrow=classic;html=1;dashed=1;edgeStyle=orthogonalEdgeStyle;" target="end" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760" y="680" />
+              <mxPoint x="760" y="955" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
